@@ -22,6 +22,7 @@ if (!defined('ABSPATH')) {
 require_once plugin_dir_path(__FILE__) . 'includes/class-tmi-api-handler.php';
 require_once plugin_dir_path(__FILE__) . 'includes/class-tmi-webhook-handler.php';
 require_once plugin_dir_path(__FILE__) . 'includes/class-tmi-command-handler.php';
+require_once plugin_dir_path(__FILE__) . 'includes/class-tmi-qrcode-handler.php';
 
 /**
  * Main Plugin Class
@@ -41,6 +42,7 @@ final class Telegram_Member_Integration {
 		$this->bot_token = get_option('tmi_bot_token');
 		$this->load_addons();
 		$this->add_hooks();
+		new TMI_QRCode_Handler();
 	}
 
 	private function load_addons() {

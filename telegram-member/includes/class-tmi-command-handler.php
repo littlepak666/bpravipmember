@@ -67,13 +67,13 @@ class TMI_Command_Handler {
 	}
 
 	private function handle_register($chat_id, $user_id, $first_name) {
-		if (get_user_by('login', 'tg_' . $user_id)) {
+		if (get_user_by('login', 'tgvipmem_' . $user_id)) {
 			$this->api_handler->send_message($chat_id, '您已經註冊過了！');
 			return;
 		}
 
 		$password = wp_generate_password(12, false);
-		$username = 'tg_' . $user_id;
+		$username = 'tgvipmem_' . $user_id;
 
 		$wp_user_id = wp_create_user($username, $password);
 
@@ -87,7 +87,7 @@ class TMI_Command_Handler {
 		}
 
 		// Security: Sanitize data before saving to user meta. $user_id is already an integer.
-		update_user_meta($wp_user_id, 'telegram_id', $user_id);
+		update_user_meta($wp_user_id, 'telegramvip_id', $user_id);
 		update_user_meta($wp_user_id, 'first_name', $first_name); // Already sanitized in Webhook Handler
 
 		$this->api_handler->send_message($chat_id, '✅ 註冊成功！您的帳號已建立。');
@@ -99,7 +99,7 @@ class TMI_Command_Handler {
 			return;
 		}
 
-		$wp_user = get_user_by('login', 'tg_' . $user_id);
+		$wp_user = get_user_by('login', 'tgvipmem_' . $user_id);
 		if (!$wp_user) {
 			$this->api_handler->send_message($chat_id, '您尚未註冊，請先輸入「註冊」。');
 			return;
@@ -112,14 +112,14 @@ class TMI_Command_Handler {
 	}
 
 	private function handle_member_card($chat_id, $user_id) {
-		$wp_user = get_user_by('login', 'tg_' . $user_id);
+		$wp_user = get_user_by('login', 'tgvipmem_' . $user_id);
 		if (!$wp_user) {
 			$this->api_handler->send_message($chat_id, '您尚未註冊，請先輸入「註冊」。');
 			return;
 		}
 
 		// Generate a QR code with the user's Telegram ID
-		$qr_code_data = 'tg_user_id:' . $user_id;
+		$qr_code_data = 'tgvipmem_user_id:' . $user_id;
 		$qr_code_url  = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' . urlencode($qr_code_data);
 		$caption      = "這是您的專屬會員卡 QR Code。";
 
